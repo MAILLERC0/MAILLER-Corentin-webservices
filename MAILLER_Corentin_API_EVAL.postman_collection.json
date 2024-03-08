@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "74544e79-db82-476a-a762-030c81c55f4f",
+		"name": "MAILLER_Corentin_API_EVAL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19868221",
+		"_collection_link": "https://cloudy-shadow-690751.postman.co/workspace/warmup~b0c2e559-5660-43e1-b0cb-cdb9bcdd4683/collection/19868221-74544e79-db82-476a-a762-030c81c55f4f?action=share&source=collection_link&creator=19868221"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const {access_token}  = response;\r",
+									"pm.globals.set(\"access_token\",access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"corentin.mailler@ynov.com\",\r\n    \"password\":\"azertyUIOP!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/auth/refresh"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"john\",\r\n\t\"lastName\":\"slow\",\r\n\t\"email\": \"john.slow@gmail.com\",\r\n    \"password\":\"azertyUIOP!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/users/"
+					},
+					"response": [
+						{
+							"name": "user1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Jacky\",\r\n    \"lastName\":\"Les croissants\",\r\n    \"email\":\"zazou@yeah.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{ROOT_ENDPOINT}}/users/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a-OMK+DdXBC9V1slMgT98euULwRIg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Feb 2024 09:56:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"firstName\": \"Jacky\",\n    \"lastName\": \"Les croissants\",\n    \"email\": \"zazou@yeah.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "one user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/users/65eae99b01db722b5da296cb"
+					},
+					"response": []
+				},
+				{
+					"name": "updateOneUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"skills\":[\"65eb18a2726c3ed638a011d9\",\"65eb18b3726c3ed638a011e1\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/users/65eae99b01db722b5da296cb"
+					},
+					"response": []
+				},
+				{
+					"name": "updateRole",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roles\":[\"65eaf34ea062a0d77a35050b\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/users/65eae99b01db722b5da296cb"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/users/65eb143bdeed91d2874062a3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "add new role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"admin\",\r\n    \"authorizations\":[\r\n        {\r\n            \"method\": \"GET\",\r\n            \"path\": \"users\"\r\n        },\r\n        {\r\n            \"method\": \"PUT\",\r\n            \"path\": \"users\"\r\n        },\r\n        {\r\n            \"method\": \"DELETE\",\r\n            \"path\": \"users\"\r\n        },\r\n        {\r\n            \"method\": \"PATCH\",\r\n            \"path\": \"users\"\r\n        },\r\n        {\r\n            \"method\": \"GET\",\r\n            \"path\": \"projects\"\r\n        },\r\n        {\r\n            \"method\": \"POST\",\r\n            \"path\": \"projects\"\r\n        },\r\n        {\r\n            \"method\": \"PUT\",\r\n            \"path\": \"projects\"\r\n        },\r\n        {\r\n            \"method\": \"DELETE\",\r\n            \"path\": \"projects\"\r\n        },\r\n        {\r\n            \"method\": \"PATCH\",\r\n            \"path\": \"projects\"\r\n        },\r\n        {\r\n            \"method\": \"GET\",\r\n            \"path\": \"skills\"\r\n        },\r\n        {\r\n            \"method\": \"POST\",\r\n            \"path\": \"skills\"\r\n        },\r\n        {\r\n            \"method\": \"PUT\",\r\n            \"path\": \"skills\"\r\n        },\r\n        {\r\n            \"method\": \"DELETE\",\r\n            \"path\": \"skills\"\r\n        },\r\n        {\r\n            \"method\": \"PATCH\",\r\n            \"path\": \"skills\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/roles/"
+					},
+					"response": [
+						{
+							"name": "user1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Jacky\",\r\n    \"lastName\":\"Les croissants\",\r\n    \"email\":\"zazou@yeah.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{ROOT_ENDPOINT}}/users/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a-OMK+DdXBC9V1slMgT98euULwRIg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Feb 2024 09:56:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"firstName\": \"Jacky\",\n    \"lastName\": \"Les croissants\",\n    \"email\": \"zazou@yeah.com\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "new project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\":\"Projet 4\",\r\n\t\"team\":[{\r\n\t\t\t\"firstName\":\"corentin\",\r\n\t\t\t\"lastName\":\"mailler\",\r\n\t\t\t\"email\": \"corentin.mailler@ynov.com\"\r\n\t},\r\n    {\r\n\t\t\t\"firstName\":\"franky\",\r\n\t\t\t\"lastName\":\"vincent\",\r\n\t\t\t\"email\": \"fv@gmail.com\"\r\n\t}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/projects"
+					},
+					"response": [
+						{
+							"name": "new project",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\":\"Projet name\",\r\n\t\"team\":[\r\n        {\r\n\t\t\t\"firstName\":\"toto\",\r\n\t\t\t\"lastName\":\"titi\",\r\n\t\t\t\"email\": \"toto.titi@ynov.com\"\r\n\t    }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{ROOT_ENDPOINT}}/projects"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "454"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c6-plsYsTmqw7zZzos32ulyo63LQ3I\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Feb 2024 13:41:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"imgUri\": \"https://cdn-www.konbini.com/files/2023/05/Sans-titre-15.png?width=1920&quality=undefined&format=webp\",\n    \"prompt\": \"violet grimes with elves ears\",\n    \"categories\": [],\n    \"comments\": [],\n    \"author\": {\n        \"firstName\": \"Jacky\",\n        \"lastName\": \"les croissants\",\n        \"email\": \"firstNewUserWithHashAndSalt@yeah.com\"\n    },\n    \"publicationDate\": \"2024-02-13T10:51:46.545Z\",\n    \"_id\": \"65cb719eb5bef12dc83d563f\",\n    \"createdAt\": \"2024-02-13T13:41:50.701Z\",\n    \"updatedAt\": \"2024-02-13T13:41:50.701Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "all projects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "ETag",
+								"value": "\"10ec-ilkPK04CpnKeVsE+X+ot5ma61BM\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ROOT_ENDPOINT}}/projects?sort=createdAt",
+							"host": [
+								"{{ROOT_ENDPOINT}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "publicationDate",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "createdAt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "one project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/projects/65eb15bc5d1c5528a5411b2c"
+					},
+					"response": []
+				},
+				{
+					"name": "latest projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/projects/latest-projects"
+					},
+					"response": []
+				},
+				{
+					"name": "Update one Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"publicationDate\": \"2024-01-10T13:51:46.545Z\",\r\n\t\"prompt\":\"antoher ynov prompt\",\r\n    \"categories\":[\"ynov\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/projects/65cb78bcfa85fe40d1441495"
+					},
+					"response": []
+				},
+				{
+					"name": "add member to project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"team\":[\r\n        {\r\n            \"firstName\":\"will\",\r\n            \"lastName\":\"smic\",\r\n            \"email\": \"will.smic@gmail.com\"\r\n        },\r\n        {\r\n            \"firstName\":\"john\",\r\n            \"lastName\":\"slow\",\r\n            \"email\": \"john.slow@gmail.com\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/projects/65eb15bc5d1c5528a5411b2c"
+					},
+					"response": []
+				},
+				{
+					"name": "delete project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/projects/65eb1d18349e86d650d03937"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "skills",
+			"item": [
+				{
+					"name": "create skills",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"ReactJS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/skills"
+					},
+					"response": []
+				},
+				{
+					"name": "all skills",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/skills"
+					},
+					"response": []
+				},
+				{
+					"name": "update skill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"React\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ROOT_ENDPOINT}}/skills/65eb18a2726c3ed638a011d9"
+					},
+					"response": []
+				},
+				{
+					"name": "delete skill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{ROOT_ENDPOINT}}/skills/65eb1937726c3ed638a011fc"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "origin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{ROOT_ENDPOINT}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ROOT_ENDPOINT",
+			"value": "http://localhost:5000/api/v1",
+			"type": "string"
+		}
+	]
+}
