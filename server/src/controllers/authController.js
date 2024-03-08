@@ -36,13 +36,15 @@ const exposeController = {
         try {
             const decoded      = verifyJwt(refreshToken)
             const tokenPayload = {
-                id:user._id,
+                id:foundUser._id,
                 lastName:foundUser.lastName,
                 firstName:foundUser.firstName,
                 email:foundUser.email
                
             }
-            if(decoded.email!==foundUser.email) return res.sendStatus(403)
+            if(decoded.email!==foundUser.email) {
+                return res.sendStatus(403)
+            }
             const accessToken = signJwt({payload:tokenPayload,expiresIn:'1d'}) 
             return res.json({accessToken,token_type:'Bearer'})
         } catch (error) {

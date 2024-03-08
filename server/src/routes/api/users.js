@@ -9,7 +9,7 @@ router.get('/',[authGard.protect],usersController.allUsers);
 router.get('/:id',[authGard.protect],usersController.oneUser);
 router.post('/',usersController.createUser);
 router.put('/:id',[authGard.protect],usersController.updateUser);
-router.patch('/:id',[authGard.protect,RBAC.authorizationChecker],usersController.patchUser);
-router.delete('/:id',[authGard.protect,RBAC.authorizationChecker],usersController.deleteUser);
+router.patch('/:id',[authGard.protect,RBAC.roleAdminChecker],usersController.patchUser);
+router.delete('/:id',[authGard.protect,RBAC.roleAdminChecker],usersController.deleteUser);
 
 export default router;

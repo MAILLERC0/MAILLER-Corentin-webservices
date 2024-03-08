@@ -16,7 +16,6 @@ const exposeController = {
             return res.json(newSkill)
         } catch (error) {
             return res.sendStatus(400)
-            // return res.json({error})
         }
         
     },

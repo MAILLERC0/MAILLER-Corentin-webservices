@@ -3,12 +3,19 @@ import usersService from '#src/services/usersService'
 const exposeController = {
 
     allUsers:async (req,res)=>{
-        const allUsers = await usersService.findAllUsers()
-        return res.json(allUsers)
+        const {query} = req
+        try {
+            const allUsers = await usersService.findAllUsers(query)
+            return res.json(allUsers)
+        } catch (error){
+            return res.sendStatus(400)
+        }
+
     },
     oneUser:async (req,res)=>{
+        const {id}  = req.params
         try {
-            const user = await usersService.findOneUserById()
+            const user = await usersService.findOneUserById(id)
             return res.json(user)
         } catch (error){
             return res.sendStatus(400)
@@ -21,7 +28,6 @@ const exposeController = {
                 return res.json(registeredUser)
             } catch (error) {
                return res.sendStatus(400)
-            // return res.json({error})
         }
         
     },
@@ -29,10 +35,15 @@ const exposeController = {
         const {body}  = req
         const {id}    = req.params
         try {
-                const toUpdate = await usersService.updateUser({id,body})     
-                return res.json(toUpdate)
-            } catch (error) {
-               return res.sendStatus(400)
+            const toUpdate = await usersService.updateUser(id,body)  
+            if (!toUpdate){
+                return res.sendStatus(400)
+            }
+            return res.json(toUpdate)
+        } catch (error) {
+            console.log(error)
+
+            return res.sendStatus(400)
         }
         
     },
@@ -40,10 +51,14 @@ const exposeController = {
         const {body}  = req
         const {id}    = req.params
         try {
-                const toUpdate = await usersService.patchRolesUser({id,body})     
-                return res.json(toUpdate)
-            } catch (error) {
-               return res.sendStatus(400)
+            const toUpdate = await usersService.patchRolesUser({id,body})    
+            if (!toUpdate){
+                return res.sendStatus(400)
+            }
+            return res.json(toUpdate)
+        } catch (error) {
+            console.log(error)
+            return res.sendStatus(400)
         }
         
     },

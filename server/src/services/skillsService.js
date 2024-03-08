@@ -2,14 +2,6 @@ import Skill from "#src/models/Skills";
 
 const exposeServices = {
 
-    findOneSkill: async ({id:_id})=>{
-        try {
-            const   skill = await Skill.findOne({_id})
-            return  skill
-        } catch (error) {
-            throw new Error(error)
-        }
-    },
     findAllSkills: async ()=>{
         try {
             const   allskills = await Skill.find()

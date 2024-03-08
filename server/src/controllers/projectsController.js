@@ -3,16 +3,32 @@ import projectsService from '#src/services/projectsService'
 const exposeController = {
     allProjects:async (req,res)=>{
         const {query} = req
-        const allProjects = await projectsService.findAllProjects(query)
-        const xCountCreas  = await projectsService.countProjects(query)
-        res.set('X-count',xCountCreas)
-        return res.json(allProjects)
+        try {
+            const allProjects = await projectsService.findAllProjects(query)
+            const xCountCreas  = await projectsService.countProjects(query)
+            res.set('X-count',xCountCreas)
+            return res.json(allProjects)
+        } catch (error){
+            return res.sendStatus(400)
+        }
     },
     oneProject:async (req,res)=>{
         const {params:{id}} = req
-        const oneCrea = await projectsService.findOneProject({id})
-        if(!oneCrea) return res.sendStatus(404)
-        return res.json(oneCrea)
+        try {
+            const oneProject = await projectsService.findOneProject({id})
+            if(!oneProject) return res.sendStatus(404)
+            return res.json(oneProject)
+        } catch (error){
+            return res.sendStatus(400)
+        }
+    },
+    LatestProject:async (req,res)=>{
+        try {
+            const latestProjects = await projectsService.findLatestProject()
+            return res.json(latestProjects)
+        } catch (error){
+            return res.sendStatus(400)
+        }
     },
     createProject:async (req,res)=>{
         const {body}  = req

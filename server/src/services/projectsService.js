@@ -3,14 +3,6 @@ import queryBuilder from "#src/utils/mongoQueryBuilder";
 
 const exposeServices = {
 
-    findOneProject: async ({id:_id})=>{
-        try {
-            const   project = await Project.findOne({_id})
-            return  project
-        } catch (error) {
-            throw new Error(error)
-        }
-    },
     findAllProjects: async (query)=>{
         const {
             filter,
@@ -21,6 +13,23 @@ const exposeServices = {
         try {
             const   allprojects = await Project.find(filter,projection,options)
             return  allprojects
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+    findOneProject: async ({id:_id})=>{
+        try {
+            const   project = await Project.findOne({_id})
+            return  project
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+    findLatestProject: async ()=>{
+        try {
+            const   project = await Project.find().sort({ createdAt: -1 }).limit(3)
+
+            return  project
         } catch (error) {
             throw new Error(error)
         }

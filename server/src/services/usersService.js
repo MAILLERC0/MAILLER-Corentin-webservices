@@ -1,8 +1,22 @@
 import User  from "#src/models/Users";
 import bcrypt from "bcryptjs"
+import queryBuilder from "#src/utils/mongoQueryBuilder";
 
 const exposeServices = {
+    findAllUsers: async (query)=>{
+        const {
+            filter,
+            projection,
+            options
+        } = queryBuilder.getFindOptions({query})
 
+        try {
+            const   allUsers = await User.find(filter,projection,options).populate('skills', 'name')
+            return  allUsers
+        } catch (error) {
+            throw error
+        }
+    },
     findOneUserByEmail:async ({email})=>{
         try {
             const   findUser = await User.findOne({email})
@@ -12,7 +26,7 @@ const exposeServices = {
         }
 
     },
-    findOneUserById:async ({id})=>{
+    findOneUserById:async (id)=>{
         try {
             const   findUser = await User.findOne({_id:id})
             return  findUser
@@ -24,11 +38,24 @@ const exposeServices = {
         const q     ={_id:id}
         const filter={roles:1}
         const embed ={
+            populate:{ path: 'roles', select: 'name' }
+        }
+        try {
+            const   findUser = await User.findOne(q,filter,embed)
+            return findUser
+        } catch (error) {
+            throw error
+        }
+    },
+    findOneUserByIdWithAuthorizations:async ({id})=>{
+        const q     ={_id:id}
+        const filter={roles:1}
+        const embed ={
             populate:{ path: 'roles', select: 'authorizations' }
         }
         try {
             const   findUser = await User.findOne(q,filter,embed)
-             return findUser
+            return findUser
         } catch (error) {
             throw error
         }
@@ -37,14 +64,6 @@ const exposeServices = {
         try {
             const   findUser = await User.findOne({refreshToken})
             return  findUser
-        } catch (error) {
-            throw error
-        }
-    },
-    findAllUsers: async ()=>{
-        try {
-            const   allUsers = await User.find()
-            return  allUsers
         } catch (error) {
             throw error
         }
@@ -67,10 +86,10 @@ const exposeServices = {
             throw error
         }
     },
-    updateUser: async ({userId,body})=>{
+    updateUser: async (id,body)=>{
         const { roles, ...updatedBody } = body;
         const query = {
-            _id:userId
+            _id:id
         }
 
         try {
@@ -108,7 +127,6 @@ const exposeServices = {
             $set:{
                 roles
             },
-            ...rest
         }
         try {
             const   topatch = await User.findOneAndUpdate(query,updateQ,{new:true})

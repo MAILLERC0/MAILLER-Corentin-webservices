@@ -6,8 +6,8 @@ const router = express.Router();
 
 
 router.get('/',skillsController.allSkills);
-router.post('/',[authGard.protect,RBAC.authorizationChecker],skillsController.createSkill);
-router.put('/:id',[authGard.protect,RBAC.authorizationChecker],skillsController.updateSkill);
-router.delete('/:id',[authGard.protect,RBAC.authorizationChecker],skillsController.deleteSkill);
+router.post('/',[authGard.protect,RBAC.roleAdminChecker],skillsController.createSkill);
+router.put('/:id',[authGard.protect,RBAC.roleAdminChecker],skillsController.updateSkill);
+router.delete('/:id',[authGard.protect,RBAC.roleAdminChecker],skillsController.deleteSkill);
 
 export default router;
