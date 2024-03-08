@@ -33,49 +33,46 @@ const exposeController = {
     createProject:async (req,res)=>{
         const {body}  = req
         try {
-                const newCrea = await projectsService.createProjects(body)     
-                return res.status(201).json(newCrea)
-            } catch (error) {
-               return res.sendStatus(400)
+            const newCrea = await projectsService.createProjects(body)     
+            return res.status(201).json(newCrea)
+        } catch (error) {
+            return res.sendStatus(400)
         }
     },
     updateProject:async (req,res)=>{
         const {body}  = req
         const {id}    = req.params
         try {
-                const toUpdate = await projectsService.updateProject({id,body})     
-                return res.json(toUpdate)
-            } catch (error) {
-               return res.sendStatus(400)
+            const toUpdate = await projectsService.updateProject({id,body})     
+            return res.json(toUpdate)
+        } catch (error) {
+            return res.sendStatus(400)
         }
         
     },
     patchProject:async (req,res)=>{
         const {body}  = req
         const {id}    = req.params
-        try {
-               
-                const toPatch = await projectsService.patchProject({id,body})     
-                return res.json(toPatch)
-            } catch (error) {
-               return res.sendStatus(400)
+        try {  
+            const toPatch = await projectsService.patchProject({id,body})     
+            return res.json(toPatch)
+        } catch (error) {
+            return res.sendStatus(400)
         }
         
     },
     deleteProject:async (req,res)=>{
         const {id}    = req.params
         try {
-                const result = await projectsService.deleteProject({id})
-                if (result.deletedCount < 1){
-                    return res.sendStatus(400)
-                }
-                return res.json({"msg" : "project deleted successfully !"})
-            } catch (error) {
-               return res.sendStatus(400)
+            const result = await projectsService.deleteProject({id})
+            if (result.deletedCount < 1){
+                return res.sendStatus(400)
+            }
+            return res.json({"msg" : "project deleted successfully !"})
+        } catch (error) {
+            return res.sendStatus(400)
         }
-        
-    },
-
+    }
 }
 
 export default exposeController

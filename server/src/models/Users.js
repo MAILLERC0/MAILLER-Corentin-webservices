@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     lastName : String, 
     firstName: String,
-    email: { type:String,  required:'un nom est obligatoire:)', unique:true },
+    email: { type:String,  required:'un email est requis', unique:true },
     password:{ type:String },
     skills:[{
         ref:'skills',
@@ -18,6 +18,8 @@ const userSchema = new Schema({
 },
 { timestamps: true }
 );
+
+userSchema.index({ email: 1 });
 
 const userModel = mongoose.model('users',userSchema)
 

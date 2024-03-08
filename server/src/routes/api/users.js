@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/',[authGard.protect],usersController.allUsers);
 router.get('/:id',[authGard.protect],usersController.oneUser);
 router.post('/',usersController.createUser);
-router.put('/:id',[authGard.protect],usersController.updateUser);
+router.put('/:id',[authGard.protect,RBAC.roleAdminChecker],usersController.updateUser);
 router.patch('/:id',[authGard.protect,RBAC.roleAdminChecker],usersController.patchUser);
 router.delete('/:id',[authGard.protect,RBAC.roleAdminChecker],usersController.deleteUser);
 

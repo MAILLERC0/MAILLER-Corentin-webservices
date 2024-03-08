@@ -24,10 +24,10 @@ const exposeController = {
     createUser:async (req,res)=>{
         const {body}  = req
         try {
-                const registeredUser = await usersService.createUser(body)     
-                return res.json(registeredUser)
-            } catch (error) {
-               return res.sendStatus(400)
+            const registeredUser = await usersService.createUser(body)     
+            return res.json(registeredUser)
+        } catch (error) {
+            return res.sendStatus(400)
         }
         
     },
@@ -41,8 +41,6 @@ const exposeController = {
             }
             return res.json(toUpdate)
         } catch (error) {
-            console.log(error)
-
             return res.sendStatus(400)
         }
         
@@ -57,7 +55,6 @@ const exposeController = {
             }
             return res.json(toUpdate)
         } catch (error) {
-            console.log(error)
             return res.sendStatus(400)
         }
         
@@ -87,13 +84,13 @@ const exposeController = {
     deleteUser:async (req,res)=>{
         const {id}    = req.params
         try {
-                const result = await usersService.deleteUser({id})
-                if (result.deletedCount < 1){
-                    return res.sendStatus(400)
-                }
-                return res.json({"msg" : "user deleted successfully !"})
-            } catch (error) {
-               return res.sendStatus(400)
+            const result = await usersService.deleteUser({id})
+            if (result.deletedCount < 1){
+                return res.sendStatus(400)
+            }
+            return res.json({"msg" : "user deleted successfully !"})
+        } catch (error) {
+            return res.sendStatus(400)
         }
         
     },
